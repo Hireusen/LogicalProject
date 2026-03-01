@@ -10,6 +10,9 @@ public class BeadRenderer : MonoBehaviour
     [Header("필수 요소 등록")]
     [SerializeField] private Mesh _mesh;
     [SerializeField] private Material _material;
+
+    [Header("사용자 정의 설정")]
+    [SerializeField] private float _circleSize = 0.5f;
     #endregion
 
     #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
@@ -45,15 +48,28 @@ public class BeadRenderer : MonoBehaviour
         }
     }
 
-    private void Awake()
+    private void InitMatrices()
     {
         // Matrix4x4 버퍼 초기화해두기
+        Matrix4x4 matrix = Matrix4x4.identity;
+        matrix.m00 = _circleSize; // Scale X
+        matrix.m11 = _circleSize; // Scale Y
         for (int i = 0; i < MATRIX_SIZE; ++i) {
-            _matrices[i] = Matrix4x4.identity;
+            _matrices[i] = matrix;
         }
+    }
+
+    private void Awake()
+    {
+        InitMatrices();
         // 인스펙터!!
         De.IsNull(_mesh);
         De.IsNull(_material);
+    }
+
+    private void OnValidate()
+    {
+        InitMatrices();
     }
     #endregion
 }

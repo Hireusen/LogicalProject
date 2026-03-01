@@ -22,13 +22,7 @@ public class BlackHoleManager : MonoBehaviour
     [SerializeField] private int _maxBeadCount = 100;
     #endregion
 
-    #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
     private BeadData _data;
-    #endregion
-
-    #region ─────────────────────────▶ 내부 메서드 ◀─────────────────────────
-
-    #endregion
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
     private void InitBeadData(int count)

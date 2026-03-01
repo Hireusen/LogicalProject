@@ -11,7 +11,7 @@ public class BeadSpawner : MonoBehaviour
     [SerializeField] private float _spawnInterval;
     #endregion
 
-    private float _nextSpawnTime = Time.time;
+    private float _nextSpawnTime;
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
     public void TrySpawnBead(BeadData beads, Vector2 cameraMinPos, Vector2 cameraMaxPos)
@@ -34,6 +34,11 @@ public class BeadSpawner : MonoBehaviour
         beads.velocity[activeCount] = Vector2.zero;
         beads.activeCount++;
         beads.generatedCount++;
+    }
+
+    private void Awake()
+    {
+        _nextSpawnTime = Time.time;
     }
     #endregion
 }
