@@ -37,6 +37,7 @@ public class BeadSpawner : MonoBehaviour
         beads.pos[activeCount] = new Vector2(randX, randY);
         beads.velocity[activeCount] = Vector2.zero;
         beads.activeCount++;
+        beads.generatedCount++;
     }
 
     private void Awake()

@@ -28,7 +28,7 @@ public class BeadRenderer : MonoBehaviour
     {
         // 변수 준비
         int batchCount = 0;
-        // 모든 구슬 반복
+        // 모든 구슬 순회
         for (int i = 0; i < activeCount; ++i) {
             // 좌표 설정
             SetMatrixPos2D(ref _matrices[batchCount], beadsPos[i]);

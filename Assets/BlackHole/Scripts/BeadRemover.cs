@@ -39,7 +39,7 @@ public class BeadRemover : MonoBehaviour
     #endregion
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    public void CleanBeads(BeadData beads, Vector2 blackHolePos, bool blackHoleActive)
+    public void TryCleanBeads(BeadData beads, Vector2 blackHolePos, bool blackHoleActive)
     {
         // 변수 빌드 & 캐싱
         (Vector2 cameraMinPos, Vector2 cameraMaxPos) = URange.GetCameraBounds2D(_camera);

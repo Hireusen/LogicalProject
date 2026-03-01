@@ -9,6 +9,8 @@ public class BeadData
     public Vector2[] velocity;
     public int activeCount;
     public int capacity;
+    public int absorptionCount;
+    public int generatedCount;
 
     public BeadData(int count)
     {
@@ -16,5 +18,7 @@ public class BeadData
         this.velocity = new Vector2[count];
         this.activeCount = 0;
         this.capacity = count;
+        this.absorptionCount = 0;
+        this.generatedCount = 0;
     }
 }
