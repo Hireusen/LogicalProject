@@ -46,6 +46,7 @@ public class BeadRemover : MonoBehaviour
             // 블랙홀에 흡수
             if (blackHoleActive && IsInBlackHole(beadPos, blackHolePos, removeDistance)) {
                 RemoveBead(i, beads);
+                beads.absorptionCount++;
                 continue;
             }
             // 카메라 밖에서 삭제
