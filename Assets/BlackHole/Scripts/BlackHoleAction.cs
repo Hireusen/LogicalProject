@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ~ 오브젝트에 부착하는 C# 스크립트입니다.
-/// ~ 합니다.
+/// 빈 오브젝트에 부착하는 C# 스크립트입니다.
+/// 키를 입력받아 블랙홀을 이동하거나, 흡수를 시도합니다.
 /// </summary>
 public class BlackHoleAction : MonoBehaviour
 {

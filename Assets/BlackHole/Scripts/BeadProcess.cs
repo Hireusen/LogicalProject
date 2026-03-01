@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ~ 오브젝트에 부착하는 C# 스크립트입니다.
-/// ~ 합니다.
+/// 빈 오브젝트에 부착하는 C# 스크립트입니다.
+/// 구슬을 순환하며 이동량을 적용합니다.
 /// </summary>
-public class BeanInfo : MonoBehaviour
+public class BeadProcess : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
     [Header("필수 요소 등록")]

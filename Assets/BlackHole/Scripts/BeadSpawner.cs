@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ~ 오브젝트에 부착하는 C# 스크립트입니다.
-/// ~ 합니다.
+/// 빈 오브젝트에 부착하는 C# 스크립트입니다.
+/// 구슬을 카메라 범위 내에서 활성화시킵니다.
 /// </summary>
-public class BeanProcess : MonoBehaviour
+public class BeadSpawner : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
     [Header("필수 요소 등록")]

@@ -44,9 +44,9 @@ public class URange
         float down = rectPos.y - diameter;
         float up = rectPos.y + diameter;
         if (targetPos.x < left) return false;
-        if (right < targetPos.x) return false;
+        if (targetPos.x > right) return false;
         if (targetPos.y < down) return false;
-        if (up < targetPos.y) return false;
+        if (targetPos.y > up) return false;
         return true;
     }
 
@@ -54,16 +54,29 @@ public class URange
     /// 좌표가 특정 좌표를 중심으로 한 사각형 범위 안에 있는지 검사합니다.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool InRect(float x, float y, float rectX, float rectY, float diameter)
+    public static bool InRect(float targetX, float targetY, float rectX, float rectY, float diameter)
     {
         float left = rectX - diameter;
         float right = rectX + diameter;
         float up = rectY + diameter;
         float down = rectY - diameter;
-        if (x < left) return false;
-        if (right < x) return false;
-        if (y < down) return false;
-        if (up < y) return false;
+        if (targetX < left) return false;
+        if (targetX > right) return false;
+        if (targetY < down) return false;
+        if (targetY > up) return false;
+        return true;
+    }
+
+    /// <summary>
+    /// 좌표가 사각형 범위 안에 있는지 검사합니다.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool InRect(Vector2 targetPos, Vector2 minPos, Vector2 maxPos)
+    {
+        if (targetPos.x < minPos.x) return false;
+        if (targetPos.x > maxPos.x) return false;
+        if (targetPos.y < minPos.y) return false;
+        if (targetPos.y > maxPos.y) return false;
         return true;
     }
 
