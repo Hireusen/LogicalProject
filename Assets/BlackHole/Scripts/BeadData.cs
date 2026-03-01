@@ -7,12 +7,14 @@ public class BeadData
 {
     public Vector2[] pos;
     public Vector2[] velocity;
-    public bool[] isActive;
+    public int activeCount;
+    public int capacity;
 
     public BeadData(int count)
     {
         this.pos = new Vector2[count];
         this.velocity = new Vector2[count];
-        this.isActive = new bool[count];
+        this.activeCount = 0;
+        this.capacity = count;
     }
 }

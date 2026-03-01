@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -10,85 +8,40 @@ public class BeadSpawner : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
     [Header("필수 요소 등록")]
-    [SerializeField] private Transform _player;
+    [SerializeField] private Camera _camera;
 
     [Header("사용자 정의 설정")]
-    [SerializeField] private Vector3 _offset = new Vector3(0f, 0f, 0f);
+    [SerializeField] private float _spawnInterval;
     #endregion
 
-    #region ─────────────────────────▶ 접근자 ◀─────────────────────────
-
-    #endregion
-
-    #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
-
-    #endregion
-
-    #region ─────────────────────────▶ 내부 메서드 ◀─────────────────────────
-
-    #endregion
+    private float _nextSpawnTime = Time.time;
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    // 인스펙터 유효성 검사
-    public void Verification() {
-
+    public void TrySpawnBead(BeadData beads)
+    {
+        // 구슬 개수가 최대치 도달
+        int activeCount = beads.activeCount;
+        if(activeCount >= beads.capacity) {
+            return;
+        }
+        // 생성 쿨타임
+        if(_nextSpawnTime > Time.time) {
+            return;
+        }
+        _nextSpawnTime += _spawnInterval;
+        // 변수 빌드
+        (Vector2 cameraMinPos, Vector2 cameraMaxPos) = URange.GetCameraBounds2D(_camera);
+        float randX = Random.Range(cameraMinPos.x, cameraMaxPos.x);
+        float randY = Random.Range(cameraMinPos.y, cameraMaxPos.y);
+        // 생성
+        beads.pos[activeCount] = new Vector2(randX, randY);
+        beads.velocity[activeCount] = Vector2.zero;
+        beads.activeCount++;
     }
 
-    // 스크립트 내부 변수 초기화
-    public void Initialize() {
-
-    }
-
-    // 외부에 전달할 데이터 생성
-    public void DataBuilder() {
-
-    }
-    #endregion
-
-    #region ─────────────────────────▶ 메시지 함수 ◀─────────────────────────
     private void Awake()
     {
-
-    }
-
-    private void OnEnable()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-
-    }
-
-    private void LateUpdate()
-    {
-
-    }
-
-    private void OnDisable()
-    {
-
-    }
-
-    private void OnDestroy()
-    {
-        
-    }
-
-    private void Reset()
-    {
-        
-    }
-
-    private void OnValidate()
-    {
-
+        De.IsNull(_camera);
     }
     #endregion
 }

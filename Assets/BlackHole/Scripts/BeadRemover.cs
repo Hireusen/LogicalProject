@@ -16,40 +16,53 @@ public class BeadRemover : MonoBehaviour
     #endregion
 
     #region ─────────────────────────▶ 내부 메서드 ◀─────────────────────────
+    // 구슬이 블랙홀 내부에 존재
     private static bool IsInBlackHole(Vector2 beadPos, Vector2 blackHolePos, float removeDistance)
     {
         return URange.InCircle(beadPos, blackHolePos, removeDistance);
     }
 
+    // 구슬이 카메라 밖에 존재
     private static bool IsOutsideCamera(Vector2 beadPos, Vector2 cameraMinPos, Vector2 cameraMaxPos)
     {
         return !URange.InRect(beadPos, cameraMinPos, cameraMaxPos);
     }
+
+    // 스왑 팝으로 덮어씌우기
+    private static void RemoveBead(int index, BeadData beads)
+    {
+        beads.activeCount--;
+        int activeCount = beads.activeCount;
+        beads.pos[index] = beads.pos[activeCount];
+        beads.velocity[index] = beads.velocity[activeCount];
+    }
     #endregion
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    public void CleanBeads(Vector2[] beadsPos, bool[] beadsIsActive, Vector2 blackHolePos, bool blackHoleIsActive, int maxCount)
+    public void CleanBeads(BeadData beads, Vector2 blackHolePos, bool blackHoleActive)
     {
         // 변수 빌드 & 캐싱
         (Vector2 cameraMinPos, Vector2 cameraMaxPos) = URange.GetCameraBounds2D(_camera);
         float removeDistance = _removeDistance;
-        // 모든 구슬 반복
-        for (int i = 0; i < maxCount; ++i) {
-            // 비활성화 구슬 거르기
-            if (!beadsIsActive[i]) {
-                continue;
-            }
-            Vector2 beadPos = beadsPos[i];
+        // 모든 구슬 역순회
+        for (int i = beads.activeCount - 1; i >= 0; --i) {
+            Vector2 beadPos = beads.pos[i];
             // 블랙홀에 흡수
-            if (blackHoleIsActive && IsInBlackHole(beadPos, blackHolePos, removeDistance)) {
-                beadsIsActive[i] = false;
+            if (blackHoleActive && IsInBlackHole(beadPos, blackHolePos, removeDistance)) {
+                RemoveBead(i, beads);
                 continue;
             }
             // 카메라 밖에서 삭제
             if (IsOutsideCamera(beadPos, cameraMinPos, cameraMaxPos)) {
-                beadsIsActive[i] = false;
+                RemoveBead(i, beads);
             }
         }
     }
+
+    private void Awake()
+    {
+        De.IsNull(_camera);
+    }
     #endregion
 }
+?
