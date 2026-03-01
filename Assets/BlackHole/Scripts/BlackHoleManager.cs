@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -52,10 +50,10 @@ public class BlackHoleManager : MonoBehaviour
         _blackHoleAction.TryMove(cameraMinPos, cameraMaxPos);
         bool absorptionActive = _blackHoleAction.AbsorptionBeads(_data);
         Vector2 blackHolePos = _blackHoleAction.GetBlackHolePos();
-        _beadProcess.TransferBeads(_data);
+        _beadProcess.UpdateBeads(_data);
         _beadRemover.TryCleanBeads(_data, blackHolePos, absorptionActive, cameraMinPos, cameraMaxPos);
         _beadSpawner.TrySpawnBead(_data, cameraMinPos, cameraMaxPos);
-        _beadRenderer.RenderBeads(_data.pos, _data.activeCount);
+        _beadRenderer.RenderBeads(_data.pos, _data.sizeMultiply, _data.activeCount);
         _blackHoleUI.UpdateUI(_data);
     }
 

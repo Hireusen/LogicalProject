@@ -7,6 +7,7 @@ public class BeadData
 {
     public Vector2[] pos;
     public Vector2[] velocity;
+    public float[] sizeMultiply;
     public int activeCount;
     public int capacity;
     public int absorptionCount;
@@ -16,6 +17,7 @@ public class BeadData
     {
         this.pos = new Vector2[count];
         this.velocity = new Vector2[count];
+        this.sizeMultiply = new float[count];
         this.activeCount = 0;
         this.capacity = count;
         this.absorptionCount = 0;

@@ -9,6 +9,7 @@ public class BeadSpawner : MonoBehaviour
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
     [Header("사용자 정의 설정")]
     [SerializeField] private float _spawnInterval;
+    [SerializeField] private float _spawnSizeMultiply = 2f;
     #endregion
 
     private float _nextSpawnTime;
@@ -16,24 +17,28 @@ public class BeadSpawner : MonoBehaviour
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
     public void TrySpawnBead(BeadData beads, Vector2 cameraMinPos, Vector2 cameraMaxPos)
     {
-        // 구슬 개수가 최대치 도달
-        int activeCount = beads.activeCount;
-        if(activeCount >= beads.capacity) {
-            return;
+        float spawnInterval = _spawnInterval;
+        float spawnSizeMultiply = _spawnSizeMultiply;
+        // 다음 쿨타임까지 무한 반복
+        while (_nextSpawnTime < Time.time) {
+            // 쿨타임 적용
+            _nextSpawnTime += spawnInterval;
+            // 캐싱
+            int activeCount = beads.activeCount;
+            // 구슬 개수가 최대치 도달
+            if (activeCount >= beads.capacity) {
+                return;
+            }
+            // 변수 빌드
+            float randX = Random.Range(cameraMinPos.x, cameraMaxPos.x);
+            float randY = Random.Range(cameraMinPos.y, cameraMaxPos.y);
+            // 생성
+            beads.pos[activeCount] = new Vector2(randX, randY);
+            beads.velocity[activeCount] = Vector2.zero;
+            beads.sizeMultiply[activeCount] = spawnSizeMultiply;
+            beads.activeCount++;
+            beads.generatedCount++;
         }
-        // 생성 쿨타임
-        if(_nextSpawnTime > Time.time) {
-            return;
-        }
-        _nextSpawnTime += _spawnInterval;
-        // 변수 빌드
-        float randX = Random.Range(cameraMinPos.x, cameraMaxPos.x);
-        float randY = Random.Range(cameraMinPos.y, cameraMaxPos.y);
-        // 생성
-        beads.pos[activeCount] = new Vector2(randX, randY);
-        beads.velocity[activeCount] = Vector2.zero;
-        beads.activeCount++;
-        beads.generatedCount++;
     }
 
     private void Awake()

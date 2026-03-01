@@ -13,6 +13,10 @@ public class BlackHoleUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _absorptionCountText; // 블랙홀로 흡수한 구슬 수
     [SerializeField] private TextMeshProUGUI _activeBeadCountText; // 현재 씬에 존재하는 구슬 수
     [SerializeField] private TextMeshProUGUI _generatedBeadCountText; // 현재까지 생성된 구슬 수
+    [SerializeField] private TextMeshProUGUI _frameText; // 프레임
+
+    [Header("사용자 정의 설정")]
+    [SerializeField] private float _fpsUpdateInterval = 0.1f;
     #endregion
 
     #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
@@ -21,6 +25,8 @@ public class BlackHoleUI : MonoBehaviour
     private int _absorptionLastCount = 0;
     private int _activeLastCount = 0;
     private int _generatedLastCount = 0;
+    private float _fpsTimer = 0f;
+    private int _frameCount = 0;
     #endregion
 
     #region ─────────────────────────▶ 메서드 ◀─────────────────────────
@@ -58,6 +64,22 @@ public class BlackHoleUI : MonoBehaviour
                 _generatedLastCount = count;
             }
         }
+        // FPS 측정
+        {
+            // 프레임 누적
+            _fpsTimer += Time.unscaledDeltaTime;
+            _frameCount++;
+            // 쿨타임 검사
+            if (_fpsTimer >= _fpsUpdateInterval) {
+                // 평균 FPS
+                int fpsMulTen = (int)(_frameCount / _fpsTimer) * 10;
+                // 텍스트 대입
+                _frameText.SetText("{0} FPS", fpsMulTen * 0.1f);
+                // 프레임 초기화
+                _fpsTimer = 0f;
+                _frameCount = 0;
+            }
+        }
     }
 
     private void Awake()
@@ -68,6 +90,7 @@ public class BlackHoleUI : MonoBehaviour
             || De.IsNull(_absorptionCountText)
             || De.IsNull(_activeBeadCountText)
             || De.IsNull(_generatedBeadCountText)
+            || De.IsNull(_frameText)
         ) {
             enabled = false;
         }

@@ -21,20 +21,23 @@ public class BeadRenderer : MonoBehaviour
     #endregion
 
     #region ─────────────────────────▶ 메서드 ◀─────────────────────────
-    private static void SetMatrixPos2D(ref Matrix4x4 matrix, Vector2 pos)
+    private static void SetMatrix2D(ref Matrix4x4 matrix, Vector2 pos, float size)
     {
         matrix.m03 = pos.x;
         matrix.m13 = pos.y;
+        matrix.m00 = size; // Scale X
+        matrix.m11 = size; // Scale Y
     }
 
-    public void RenderBeads(Vector2[] beadsPos, int activeCount)
+    public void RenderBeads(Vector2[] beadsPos, float[] beadsSize, int activeCount)
     {
         // 변수 준비
         int batchCount = 0;
+        float defaultSize = _circleSize;
         // 모든 구슬 순회
         for (int i = 0; i < activeCount; ++i) {
             // 좌표 설정
-            SetMatrixPos2D(ref _matrices[batchCount], beadsPos[i]);
+            SetMatrix2D(ref _matrices[batchCount], beadsPos[i], defaultSize * beadsSize[i]);
             // 구슬 1023개 그리기
             batchCount++;
             if (batchCount >= MATRIX_SIZE) {
@@ -62,9 +65,10 @@ public class BeadRenderer : MonoBehaviour
     private void Awake()
     {
         InitMatrices();
-        // 인스펙터!!
-        De.IsNull(_mesh);
-        De.IsNull(_material);
+        // 유효성 검사
+        if(De.IsNull(_mesh) || De.IsNull(_material)) {
+            enabled = false;
+        }
     }
 
     private void OnValidate()
