@@ -7,9 +7,6 @@ using UnityEngine;
 public class BeadSpawner : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
-    [Header("필수 요소 등록")]
-    [SerializeField] private Camera _camera;
-
     [Header("사용자 정의 설정")]
     [SerializeField] private float _spawnInterval;
     #endregion
@@ -17,7 +14,7 @@ public class BeadSpawner : MonoBehaviour
     private float _nextSpawnTime = Time.time;
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    public void TrySpawnBead(BeadData beads)
+    public void TrySpawnBead(BeadData beads, Vector2 cameraMinPos, Vector2 cameraMaxPos)
     {
         // 구슬 개수가 최대치 도달
         int activeCount = beads.activeCount;
@@ -30,7 +27,6 @@ public class BeadSpawner : MonoBehaviour
         }
         _nextSpawnTime += _spawnInterval;
         // 변수 빌드
-        (Vector2 cameraMinPos, Vector2 cameraMaxPos) = URange.GetCameraBounds2D(_camera);
         float randX = Random.Range(cameraMinPos.x, cameraMaxPos.x);
         float randY = Random.Range(cameraMinPos.y, cameraMaxPos.y);
         // 생성
@@ -38,11 +34,6 @@ public class BeadSpawner : MonoBehaviour
         beads.velocity[activeCount] = Vector2.zero;
         beads.activeCount++;
         beads.generatedCount++;
-    }
-
-    private void Awake()
-    {
-        De.IsNull(_camera);
     }
     #endregion
 }

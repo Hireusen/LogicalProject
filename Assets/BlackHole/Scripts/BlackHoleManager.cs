@@ -10,14 +10,16 @@ public class BlackHoleManager : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
     [Header("필수 요소 등록")]
-    [SerializeField] private Transform _blackHole;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private BlackHoleAction _blackHoleAction;
+    [SerializeField] private BeadProcess _beadProcess;
+    [SerializeField] private BeadRemover _beadRemover;
+    [SerializeField] private BeadSpawner _beadSpawner;
+    [SerializeField] private BeadRenderer _beadRenderer;
+    [SerializeField] private BlackHoleUI _blackHoleUI;
 
     [Header("사용자 정의 설정")]
     [SerializeField] private int _maxBeadCount = 100;
-    #endregion
-
-    #region ─────────────────────────▶ 접근자 ◀─────────────────────────
-
     #endregion
 
     #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
@@ -29,30 +31,53 @@ public class BlackHoleManager : MonoBehaviour
     #endregion
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    // 인스펙터 유효성 검사
-    public void Verification() {
-
-    }
-
-    // 스크립트 내부 변수 초기화
-    public void Initialize() {
-
-    }
-
-    // 외부에 전달할 데이터 생성
-    public void DataBuilder() {
-
-    }
-
     private void InitBeadData(int count)
     {
-        _data = new BeadData(count);
+        // 플레이 도중 생성
+        if (_data != null) {
+            int oldCount = _data.capacity;
+            int absorptionCount = _data.absorptionCount;
+            int generatedCount = _data.generatedCount;
+            _data = new BeadData(count);
+            _data.absorptionCount = absorptionCount;
+            _data.generatedCount = generatedCount;
+            De.Print($"BeadData 재생성 완료 ({oldCount} → {count})");
+        }
+        // 최초 생성
+        else {
+            _data = new BeadData(count);
+            De.Print($"BeadData 생성 완료 ({count})");
+        }
     }
     #endregion
 
     #region ─────────────────────────▶ 메시지 함수 ◀─────────────────────────
-    private void Start()
+    private void Update()
     {
+        (Vector2 cameraMinPos, Vector2 cameraMaxPos) = URange.GetCameraBounds2D(_camera);
+        _blackHoleAction.TryMove(cameraMinPos, cameraMaxPos);
+        bool absorptionActive = _blackHoleAction.AbsorptionBeads(_data);
+        Vector2 blackHolePos = _blackHoleAction.GetBlackHolePos();
+        _beadProcess.TransferBeads(_data);
+        _beadRemover.TryCleanBeads(_data, blackHolePos, absorptionActive, cameraMinPos, cameraMaxPos);
+        _beadSpawner.TrySpawnBead(_data, cameraMinPos, cameraMaxPos);
+        _beadRenderer.RenderBeads(_data.pos, _data.activeCount);
+        _blackHoleUI.UpdateUI(_data);
+    }
+
+    private void Awake()
+    {
+        // 유효성 검사
+        if (De.IsNull(_blackHoleAction)
+            || De.IsNull(_beadProcess)
+            || De.IsNull(_beadRemover)
+            || De.IsNull(_beadSpawner)
+            || De.IsNull(_beadRenderer)
+            || De.IsNull(_blackHoleUI)
+        ) {
+            enabled = false;
+        }
+        // 데이터 생성
         InitBeadData(_maxBeadCount);
     }
 

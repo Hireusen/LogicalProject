@@ -12,6 +12,7 @@ public class BeadProcess : MonoBehaviour
     [Header("사용자 정의 설정")]
     [SerializeField] private float _velocityMultiply = 1f;
     [SerializeField, Range(0f, 1f)] private float _velocityFriction = 0.1f;
+    //[SerializeField] private float _blackHoleDistance = 0.2f;
     #endregion
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
@@ -22,6 +23,7 @@ public class BeadProcess : MonoBehaviour
         float velocityMultifly = _velocityMultiply * Time.deltaTime;
         float velocityFriction = 1f - (_velocityFriction * Time.deltaTime);
         velocityFriction = Mathf.Clamp01(velocityFriction);
+        //float blackHoleDistance = _blackHoleDistance * _blackHoleDistance;
         // 모든 구슬 순회
         for (int i = 0; i < activeCount; ++i) {
             beads.pos[i] += beads.velocity[i] * velocityMultifly;

@@ -8,9 +8,6 @@ using UnityEngine;
 public class BeadRemover : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
-    [Header("필수 요소 등록")]
-    [SerializeField] private Camera _camera;
-
     [Header("사용자 정의 설정")]
     [SerializeField] private float _removeDistance = 1f;
     #endregion
@@ -39,10 +36,9 @@ public class BeadRemover : MonoBehaviour
     #endregion
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    public void TryCleanBeads(BeadData beads, Vector2 blackHolePos, bool blackHoleActive)
+    public void TryCleanBeads(BeadData beads, Vector2 blackHolePos, bool blackHoleActive, Vector2 cameraMinPos, Vector2 cameraMaxPos)
     {
-        // 변수 빌드 & 캐싱
-        (Vector2 cameraMinPos, Vector2 cameraMaxPos) = URange.GetCameraBounds2D(_camera);
+        // 캐싱
         float removeDistance = _removeDistance;
         // 모든 구슬 역순회
         for (int i = beads.activeCount - 1; i >= 0; --i) {
@@ -58,11 +54,5 @@ public class BeadRemover : MonoBehaviour
             }
         }
     }
-
-    private void Awake()
-    {
-        De.IsNull(_camera);
-    }
     #endregion
 }
-?

@@ -29,7 +29,7 @@ public class BlackHoleUI : MonoBehaviour
         // 플레이 시간
         {
             int second = Mathf.CeilToInt(Time.time - _playStartTime);
-            if(_playLastTime != second) {
+            if (_playLastTime != second) {
                 _playTimeText.SetText("플레이 시간 : {0}초", second);
                 _playLastTime = second;
             }
@@ -63,10 +63,14 @@ public class BlackHoleUI : MonoBehaviour
     private void Awake()
     {
         _playStartTime = Time.time;
-        De.IsNull(_playTimeText);
-        De.IsNull(_absorptionCountText);
-        De.IsNull(_activeBeadCountText);
-        De.IsNull(_generatedBeadCountText);
+        // 유효성 검사
+        if (De.IsNull(_playTimeText)
+            || De.IsNull(_absorptionCountText)
+            || De.IsNull(_activeBeadCountText)
+            || De.IsNull(_generatedBeadCountText)
+        ) {
+            enabled = false;
+        }
     }
     #endregion
 }
