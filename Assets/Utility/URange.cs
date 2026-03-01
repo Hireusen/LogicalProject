@@ -8,10 +8,6 @@ public class URange
     /// <summary>
     /// 두 좌표 사이의 거리가 일정 거리 이하인지 검사합니다.
     /// </summary>
-    /// <param name="pos1"></param>
-    /// <param name="pos2"></param>
-    /// <param name="distance"></param>
-    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool InCircle(Vector2 pos1, Vector2 pos2, float distance)
     {
@@ -26,12 +22,6 @@ public class URange
     /// <summary>
     /// 두 좌표 사이의 거리가 일정 거리 이하인지 검사합니다.
     /// </summary>
-    /// <param name="x1"></param>
-    /// <param name="y1"></param>
-    /// <param name="x2"></param>
-    /// <param name="y2"></param>
-    /// <param name="distance"></param>
-    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool InCircle(float x1, float y1, float x2, float y2, float distance)
     {
@@ -46,44 +36,54 @@ public class URange
     /// <summary>
     /// 좌표가 특정 좌표를 중심으로 한 사각형 범위 안에 있는지 검사합니다.
     /// </summary>
-    /// <param name="pos"></param>
-    /// <param name="rectPos"></param>
-    /// <param name="diameter"></param>
-    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool InRect(Vector2 pos, Vector2 rectPos, float diameter)
+    public static bool InRect(Vector2 targetPos, Vector2 rectPos, float diameter)
     {
         float left = rectPos.x - diameter;
         float right = rectPos.x + diameter;
-        float up = rectPos.y - diameter;
-        float down = rectPos.y + diameter;
-        if (pos.x < left) return false;
-        if (right < pos.x) return false;
-        if (pos.y < down) return false;
-        if (up < pos.y) return false;
+        float down = rectPos.y - diameter;
+        float up = rectPos.y + diameter;
+        if (targetPos.x < left) return false;
+        if (right < targetPos.x) return false;
+        if (targetPos.y < down) return false;
+        if (up < targetPos.y) return false;
         return true;
     }
 
     /// <summary>
     /// 좌표가 특정 좌표를 중심으로 한 사각형 범위 안에 있는지 검사합니다.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="rectX"></param>
-    /// <param name="rectY"></param>
-    /// <param name="diameter"></param>
-    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool InRect(float x, float y, float rectX, float rectY, float diameter)
     {
         float left = rectX - diameter;
         float right = rectX + diameter;
-        float up = rectY - diameter;
-        float down = rectY + diameter;
+        float up = rectY + diameter;
+        float down = rectY - diameter;
         if (x < left) return false;
         if (right < x) return false;
         if (y < down) return false;
         if (up < y) return false;
         return true;
+    }
+
+    /// <summary>
+    /// 직교 카메라의 화면에 보이는 최소, 최대 월드 좌표를 반환합니다.
+    /// </summary>
+    public static (Vector2 min, Vector2 max) GetCameraBounds2D(Camera camera)
+    {
+        // 직교 카메라가 아닐 경우
+        if (!camera.orthographic) {
+            De.Print($"직교 카메라 전용 메서드에 {camera.name}이 들어왔습니다.", LogType.Assert);
+            return (Vector2.zero, Vector2.zero);
+        }
+        // 변수 준비
+        float halfHeight = camera.orthographicSize;
+        float halfWidth = halfHeight * camera.aspect;
+        Vector2 center = camera.transform.position;
+        // 좌하단, 우상단
+        Vector2 minBounds = new Vector2(center.x - halfWidth, center.y - halfHeight);
+        Vector2 maxBounds = new Vector2(center.x + halfWidth, center.y + halfHeight);
+        return (minBounds, maxBounds);
     }
 }
