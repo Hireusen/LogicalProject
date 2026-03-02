@@ -24,18 +24,21 @@ public class WormData
     public Vector2 cameraMaxPos;
 
     // 대부분의 변수 별도 초기화 작업 필요
-    public WormData(int length, Vector2 headDir)
+    public WormData()
     {
-        this.length = length;
-        this.headDir = headDir;
-        this.pos = new Vector2[length];
-        this.prevPos = new Queue<Vector2>[length];
-        this.size = new float[length];
-        this.tr = new Transform[length];
+        // WormSpawner Init
+        this.length = 0;
+        this.headDir = Vector2.zero;
+        this.pos = null;
+        this.prevPos = null;
+        this.size = null;
+        this.tr = null;
+        // WormItemSpawner Init
         this.itemGO = null;
         this.itemPos = null;
         this.itemNumber = null;
         this.activeItemCount = 0;
+        // System
         this.itemSpawnCount = 0;
         this.cameraMinPos = Vector2.zero;
         this.cameraMinPos = Vector2.zero;

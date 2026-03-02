@@ -19,25 +19,24 @@ public class WormManager : MonoBehaviour
     [SerializeField] private WormHeadFollower _wormHeadFollower;
     [SerializeField] private WormGraphic _wormGraphic;
     [SerializeField] private WormUI _wormUI;
-
-    [Header("사용자 정의 설정")]
-    [SerializeField] private int _wormLength = 30;
     #endregion
 
     private WormData _data;
-
-    #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    private void InitBeadData(int count)
-    {
-        
-    }
-    #endregion
 
     #region ─────────────────────────▶ 메시지 함수 ◀─────────────────────────
     private void Update()
     {
         (_data.cameraMinPos, _data.cameraMaxPos) = URange.GetCameraBounds2D(_camera);
-        
+        _wormSpawner.WormDataSynchronize(_data);
+        _wormItemSpawner.TrySpawnItem(_data);
+        _wormItemSpawner.WormDataSynchronize(_data);
+        // Remover
+        _wormRotate.TryRotate(_data);
+        _wormHeadMover.MoveHeadForward(_data);
+        _wormHeadFollower.BuildWormPrevPos(_data);
+        _wormHeadFollower.TransferWorms(_data);
+        _wormGraphic.UpdateWormsGraphic(_data);
+        _wormUI.UpdateUI(_data);
     }
 
     private void Awake()
@@ -55,11 +54,13 @@ public class WormManager : MonoBehaviour
         ) {
             enabled = false;
         }
-    }
-
-    private void OnValidate()
-    {
-        
+        // 지렁이 생성
+        _data = new WormData();
+        (_data.cameraMinPos, _data.cameraMaxPos) = URange.GetCameraBounds2D(_camera);
+        _wormSpawner.WormDataSynchronize(_data);
+        _wormSpawner.InitWorms(_data);
+        _wormItemSpawner.WormDataSynchronize(_data);
+        _wormItemSpawner.InitItemCount(_data);
     }
     #endregion
 }

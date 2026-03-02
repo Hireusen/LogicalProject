@@ -40,7 +40,7 @@ public class WormItemSpawner : MonoBehaviour
     {
         // 어떻게 왔지?
         if (worms == null) {
-            De.Print("존재하지 않는 WormData를 ResizeItemCount에서 받았습니다.", LogType.Assert);
+            De.Print("존재하지 않는 WormData를 ResizeItemCount에서 받았습니다.", LogType.Warning);
             return;
         }
         // 캐싱
@@ -49,6 +49,7 @@ public class WormItemSpawner : MonoBehaviour
         if (worms.itemGO == null) {
             worms.itemGO = new GameObject[count];
             worms.itemPos = new Vector2[count];
+            worms.itemNumber = new int[_itemMaxCount];
             worms.activeItemCount = 0;
             De.Print($"아이템 배열을 새로 생성했습니다. (count == {count})");
         }
@@ -64,12 +65,15 @@ public class WormItemSpawner : MonoBehaviour
             // 새 배열 생성
             GameObject[] newGO = new GameObject[count];
             Vector2[] newPos = new Vector2[count];
+            int[] newNumber = new int[count];
             // 요소 복사
             Array.Copy(worms.itemGO, newGO, copyCount);
             Array.Copy(worms.itemPos, newPos, copyCount);
+            Array.Copy(worms.itemNumber, newNumber, copyCount);
             // 새 배열로 포인터 교체
             worms.itemGO = newGO;
             worms.itemPos = newPos;
+            worms.itemNumber = newNumber;
             // 활성화 아이템 수 재설정
             worms.activeItemCount = copyCount;
             De.Print($"아이템 배열을 재생성했습니다. ({oldCount} → {count})");
@@ -85,6 +89,7 @@ public class WormItemSpawner : MonoBehaviour
     {
         worms.itemGO = new GameObject[_itemMaxCount];
         worms.itemPos = new Vector2[_itemMaxCount];
+        worms.itemNumber = new int[_itemMaxCount];
         worms.activeItemCount = 0;
         De.Print($"아이템 배열을 새로 생성했습니다. (count == {_itemMaxCount})");
     }
@@ -94,7 +99,7 @@ public class WormItemSpawner : MonoBehaviour
     {
         if (worms != _worms) {
             _worms = worms;
-            De.Print($"WormData 주소를 새로 설정했습니다. ({_worms} → {worms})");
+            De.Print($"WormItemSpawner에서 WormData 주소를 새로 설정했습니다. ({_worms} → {worms})");
         }
     }
 
@@ -128,8 +133,12 @@ public class WormItemSpawner : MonoBehaviour
         // 아이템 인스턴스 생성
         int randNumber = UnityEngine.Random.Range(0, worms.length);
         GameObject go = Instantiate(_itemPrefab, pos, Quaternion.identity);
-        TextMeshProUGUI tmp = go.GetComponentInChildren<TextMeshProUGUI>();
-        tmp.SetText(randNumber.ToString());
+        TextMeshPro tmp = go.GetComponentInChildren<TextMeshPro>();
+        if (tmp == null) {
+            De.Print($"아이템 {go}의 TMP가 존재하지 않습니다.", LogType.Error);
+        } else {
+            tmp.SetText("{0}", randNumber);
+        }
         // 아이템 데이터 생성
         worms.itemGO[curCount] = go;
         worms.itemPos[curCount] = pos;

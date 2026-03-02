@@ -12,7 +12,7 @@ public class WormHeadMover : MonoBehaviour
     #endregion
 
     #region ─────────────────────────▶ 메서드 ◀─────────────────────────
-    public void MoveForward(WormData worms)
+    public void MoveHeadForward(WormData worms)
     {
         // 변수 빌드 & 캐싱
         Vector2 pos = worms.pos[0];
