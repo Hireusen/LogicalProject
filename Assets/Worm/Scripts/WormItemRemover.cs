@@ -5,8 +5,9 @@ using UnityEngine;
 /// <summary>
 /// 빈 오브젝트에 부착하는 C# 스크립트입니다.
 /// 각 지렁이 구슬의 크기 값 이내에 아이템이 있다면 획득하고 효과를 적용합니다.
+/// 지렁이 구슬이 화면을 벗어나면 삭제 처리합니다.
 /// </summary>
-public class WormGetItem : MonoBehaviour
+public class WormItemRemover : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
     [Header("필수 요소 등록")]
