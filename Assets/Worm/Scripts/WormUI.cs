@@ -50,7 +50,7 @@ public class WormUI : MonoBehaviour
         {
             int count = worms.itemSpawnCount;
             if (_itemSpawnLastCount != count) {
-                _itemSpawnCountText.SetText("존재하는 구슬 수 : ({0})", count);
+                _itemSpawnCountText.SetText("소환된 구슬 수 : ({0})", count);
                 _itemSpawnLastCount = count;
             }
         }

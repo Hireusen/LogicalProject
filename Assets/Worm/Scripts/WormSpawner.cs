@@ -15,6 +15,7 @@ public class WormSpawner : MonoBehaviour
     [Header("사용자 정의 설정")]
     [SerializeField] private int _wormLength = 30;
     [SerializeField] private float _wormSize = 1f;
+    [SerializeField] private float _wormSpawnPaddingMultiply = 1f;
     #endregion
 
     private WormData _worms;
@@ -30,8 +31,8 @@ public class WormSpawner : MonoBehaviour
         }
         // 좌우 벽
         else {
-            pos.x = Random.Range(cameraMinOutPos.y, cameraMaxOutPos.y);
-            pos.y = Tool.Chance(0.5f) ? cameraMinOutPos.x : cameraMaxOutPos.x;
+            pos.y = Random.Range(cameraMinOutPos.y, cameraMaxOutPos.y);
+            pos.x = Tool.Chance(0.5f) ? cameraMinOutPos.x : cameraMaxOutPos.x;
         }
         return pos;
     }
@@ -66,10 +67,11 @@ public class WormSpawner : MonoBehaviour
         // 생성 좌표 빌드
         Vector2 cameraMinOutPos = worms.cameraMinPos;
         Vector2 cameraMaxOutPos = worms.cameraMaxPos;
-        cameraMinOutPos.x -= size;
-        cameraMinOutPos.y -= size;
-        cameraMaxOutPos.x += size;
-        cameraMaxOutPos.y += size;
+        float padding = size * _wormSpawnPaddingMultiply;
+        cameraMinOutPos.x -= padding;
+        cameraMinOutPos.y -= padding;
+        cameraMaxOutPos.x += padding;
+        cameraMaxOutPos.y += padding;
         Vector2 pos = GetRandomCameraOutPos(cameraMinOutPos, cameraMaxOutPos);
         // 방향 빌드
         Vector2 dir = (Vector2.zero - pos).normalized;
@@ -90,7 +92,7 @@ public class WormSpawner : MonoBehaviour
             worms.tr = new Transform[length];
             for (int i = 0; i < length; ++i) {
                 // 큐 초기화
-                worms.prevPos[i] = new Queue<Vector2>(2);
+                worms.prevPos[i] = new Queue<Vector2>(10);
                 // 인스턴스, 트랜스폼
                 GameObject go = Instantiate(_wormPrefab, pos, Quaternion.identity);
                 worms.tr[i] = go.transform;

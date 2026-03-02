@@ -41,6 +41,6 @@ public class WormData
         // System
         this.itemSpawnCount = 0;
         this.cameraMinPos = Vector2.zero;
-        this.cameraMinPos = Vector2.zero;
+        this.cameraMaxPos = Vector2.zero;
     }
 }

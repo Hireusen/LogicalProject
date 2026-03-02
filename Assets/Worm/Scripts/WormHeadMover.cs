@@ -18,7 +18,7 @@ public class WormHeadMover : MonoBehaviour
         Vector2 pos = worms.pos[0];
         Vector2 dir = worms.headDir;
         float size = worms.size[0];
-        float remainDistance = _moveSpeed * Time.deltaTime;
+        float remainDistance = _moveSpeed * (1f / 300f);
         Vector2 desiredPos = pos;
         // 이동 한계 변수 빌드
         float minX = worms.cameraMinPos.x + size;

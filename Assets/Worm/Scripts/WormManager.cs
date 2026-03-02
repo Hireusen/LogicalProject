@@ -30,7 +30,8 @@ public class WormManager : MonoBehaviour
         _wormSpawner.WormDataSynchronize(_data);
         _wormItemSpawner.TrySpawnItem(_data);
         _wormItemSpawner.WormDataSynchronize(_data);
-        // Remover
+        _wormItemRemover.TryRemoveItem(_data);
+        _wormItemRemover.ProcessItem(_data);
         _wormRotate.TryRotate(_data);
         _wormHeadMover.MoveHeadForward(_data);
         _wormHeadFollower.BuildWormPrevPos(_data);

@@ -794,7 +794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemPrefab: {fileID: 7525280451023121657, guid: 32d425c43e593e249813bfe07255e631, type: 3}
   _firstItemSpawnTime: 5
-  _spawnInterval: 3
+  _spawnInterval: 1
   _itemSpawnPadding: 0.5
   _itemMaxCount: 20
 --- !u!4 &994014585
@@ -1306,9 +1306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33e1ba3f2e26db42bd44746c7d6acf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
-  _offset: {x: 0, y: 0, z: 0}
-  _increaseSize: 0.1
+  _increaseSize: 0.25
+  _rangeMultiply: 1.5
 --- !u!4 &1517457400
 Transform:
   m_ObjectHideFlags: 0
@@ -1353,7 +1352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f40bc0c97f89249adb99252476b774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 45
+  _moveSpeed: 40
 --- !u!4 &1665440985
 Transform:
   m_ObjectHideFlags: 0
@@ -1398,6 +1397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db56eb8535266e49985250ddd56cd4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _waitQueue: 9
 --- !u!4 &1740688788
 Transform:
   m_ObjectHideFlags: 0
@@ -1582,8 +1582,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wormPrefab: {fileID: 7525280451023121657, guid: a322432998c2a9b4bb0d77766fb215bc, type: 3}
-  _wormLength: 300
+  _wormLength: 199
   _wormSize: 0.6
+  _wormSpawnPaddingMultiply: 3.4
 --- !u!4 &2094720229
 Transform:
   m_ObjectHideFlags: 0

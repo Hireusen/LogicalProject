@@ -8,6 +8,11 @@ using UnityEngine;
 /// </summary>
 public class WormHeadFollower : MonoBehaviour
 {
+    #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
+    [Header("사용자 정의 설정")]
+    [SerializeField] private int _waitQueue = 5;
+    #endregion
+
     #region ─────────────────────────▶ 메서드 ◀─────────────────────────
     public void BuildWormPrevPos(WormData worms)
     {
@@ -18,9 +23,14 @@ public class WormHeadFollower : MonoBehaviour
         // 캐싱
         var prevPos = worms.prevPos;
         var myPos = worms.pos;
+        int needCount = _waitQueue;
         // 모든 지렁이 순회
-        for (int i = 0; i < length - 1; ++i) {
-            prevPos[i].Enqueue(myPos[i]);
+        prevPos[0].Enqueue(myPos[0]);
+        for (int i = 1; i < length - 1; ++i) {
+            // 다음 지렁이 구슬이 큐를 쌓을 때까지 대기
+            if (prevPos[i - 1].Count >= needCount) {
+                prevPos[i].Enqueue(myPos[i]);
+            }
         }
     }
 
@@ -33,9 +43,14 @@ public class WormHeadFollower : MonoBehaviour
         // 캐싱
         var prevPos = worms.prevPos;
         var myPos = worms.pos;
+        int needCount = _waitQueue;
         // 머리를 제외한 지렁이 구슬 역순회
         for (int i = length - 1; i >= 1; --i) {
-            myPos[i] = prevPos[i - 1].Dequeue();
+            Queue<Vector2> posQueue = prevPos[i - 1];
+            // 다음 구슬이 큐를 쌓을때까지 대기
+            if(posQueue.Count >= needCount) {
+                myPos[i] = prevPos[i - 1].Dequeue();
+            }
         }
     }
     #endregion
