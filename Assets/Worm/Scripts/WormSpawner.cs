@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-abstract;
+
 /// <summary>
 /// 빈 오브젝트에 부착하는 C# 스크립트입니다.
 /// 지렁이를 맵 바깥에서 생성하여 원점으로 향하도록 합니다.

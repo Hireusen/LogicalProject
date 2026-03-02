@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,18 +7,25 @@ using UnityEngine;
 public class WormGraphic : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
-    [Header("필수 요소 등록")]
-    [SerializeField] private Transform _player;
-
     [Header("사용자 정의 설정")]
-    [SerializeField] private Vector3 _offset = new Vector3(0f, 0f, 0f);
+    [SerializeField] private float _zOffset = 0f;
     #endregion
 
-    #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
-
-    #endregion
-
-    #region ─────────────────────────▶ 메서드 ◀─────────────────────────
-
+    #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
+    public void UpdateWormsGraphic(WormData worms)
+    {
+        // 캐싱
+        int wormCount = worms.length;
+        float z = _zOffset;
+        // 지렁이 구슬 순회
+        for (int i = 0; i < wormCount; ++i) {
+            // 좌표 갱신
+            worms.tr[i].position = worms.pos[i];
+            // 크기 갱신
+            float size = worms.size[i];
+            Vector3 scale = new Vector3(size, size, z);
+            worms.tr[i].localScale = scale;
+        }
+    }
     #endregion
 }
