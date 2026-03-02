@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 /// <summary>
 /// 빈 오브젝트에 부착하는 C# 스크립트입니다.
@@ -14,7 +15,6 @@ public class WormItemSpawner : MonoBehaviour
     [Header("사용자 정의 설정")]
     [SerializeField] private float _firstItemSpawnTime = 5f;
     [SerializeField] private float _spawnInterval = 10f;
-    [SerializeField] private float _increaseSize = 0.1f;
     [SerializeField] private float _itemSpawnPadding = 0.1f;
     [SerializeField] private int _itemMaxCount = 10;
     #endregion
@@ -125,9 +125,15 @@ public class WormItemSpawner : MonoBehaviour
         float x = UnityEngine.Random.Range(minX, maxX);
         float y = UnityEngine.Random.Range(minY, maxY);
         Vector2 pos = new Vector2(x, y);
-        // 아이템 생성
-        worms.itemGO[curCount] = Instantiate(_itemPrefab, pos, Quaternion.identity);
+        // 아이템 인스턴스 생성
+        int randNumber = UnityEngine.Random.Range(0, worms.length);
+        GameObject go = Instantiate(_itemPrefab, pos, Quaternion.identity);
+        TextMeshProUGUI tmp = go.GetComponentInChildren<TextMeshProUGUI>();
+        tmp.SetText(randNumber.ToString());
+        // 아이템 데이터 생성
+        worms.itemGO[curCount] = go;
         worms.itemPos[curCount] = pos;
+        worms.itemNumber[curCount] = randNumber;
         worms.activeItemCount++;
         worms.itemSpawnCount++;
     }

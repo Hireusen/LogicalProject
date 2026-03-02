@@ -13,7 +13,7 @@ public class WormManager : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private WormSpawner _wormSpawner;
     [SerializeField] private WormItemSpawner _wormItemSpawner;
-    [SerializeField] private WormGetItem _wormGetItem;
+    [SerializeField] private WormItemRemover _wormItemRemover;
     [SerializeField] private WormRotate _wormRotate;
     [SerializeField] private WormHeadMover _wormHeadMover;
     [SerializeField] private WormHeadFollower _wormHeadFollower;
@@ -29,21 +29,7 @@ public class WormManager : MonoBehaviour
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
     private void InitBeadData(int count)
     {
-        // 플레이 도중 생성
-        if (_data != null) {
-            int oldCount = _data.capacity;
-            int absorptionCount = _data.absorptionCount;
-            int generatedCount = _data.generatedCount;
-            _data = new BeadData(count);
-            _data.absorptionCount = absorptionCount;
-            _data.generatedCount = generatedCount;
-            De.Print($"BeadData 재생성 완료 ({oldCount} → {count})");
-        }
-        // 최초 생성
-        else {
-            _data = new BeadData(count);
-            De.Print($"BeadData 생성 완료 ({count})");
-        }
+        
     }
     #endregion
 
@@ -60,7 +46,7 @@ public class WormManager : MonoBehaviour
         if (De.IsNull(_camera)
             || De.IsNull(_wormSpawner)
             || De.IsNull(_wormItemSpawner)
-            || De.IsNull(_wormGetItem)
+            || De.IsNull(_wormItemRemover)
             || De.IsNull(_wormRotate)
             || De.IsNull(_wormHeadMover)
             || De.IsNull(_wormHeadFollower)

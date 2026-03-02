@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,11 +10,13 @@ public class WormData
     public int length;
     public Vector2 headDir;
     public Vector2[] pos;
+    public Queue<Vector2>[] prevPos;
     public float[] size;
     public Transform[] tr;
     // 아이템
     public GameObject[] itemGO;
     public Vector2[] itemPos;
+    public int[] itemNumber;
     public int activeItemCount;
     // 시스템
     public int itemSpawnCount;
@@ -26,9 +29,12 @@ public class WormData
         this.length = length;
         this.headDir = headDir;
         this.pos = new Vector2[length];
+        this.prevPos = new Queue<Vector2>[length];
         this.size = new float[length];
         this.tr = new Transform[length];
         this.itemGO = null;
+        this.itemPos = null;
+        this.itemNumber = null;
         this.activeItemCount = 0;
         this.itemSpawnCount = 0;
         this.cameraMinPos = Vector2.zero;
