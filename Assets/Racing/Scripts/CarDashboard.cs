@@ -6,7 +6,7 @@ using UnityEngine;
 /// ~ 오브젝트에 부착하는 C# 스크립트입니다.
 /// ~ 합니다.
 /// </summary>
-public class CarGraphic : MonoBehaviour
+public class CarDashboard : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
     [Header("필수 요소 등록")]
