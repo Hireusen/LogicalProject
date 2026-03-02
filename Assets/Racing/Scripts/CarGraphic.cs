@@ -1,94 +1,33 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ~ 오브젝트에 부착하는 C# 스크립트입니다.
-/// ~ 합니다.
+/// 빈 오브젝트에 부착하는 C# 스크립트입니다.
+/// 플레이어의 Y 좌표를 중심으로 모든 자동차 오브젝트를 재배치합니다.
 /// </summary>
 public class CarGraphic : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
-    [Header("필수 요소 등록")]
-    [SerializeField] private Transform _player;
-
     [Header("사용자 정의 설정")]
-    [SerializeField] private Vector3 _offset = new Vector3(0f, 0f, 0f);
-    #endregion
-
-    #region ─────────────────────────▶ 접근자 ◀─────────────────────────
-
-    #endregion
-
-    #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
-
-    #endregion
-
-    #region ─────────────────────────▶ 내부 메서드 ◀─────────────────────────
-
+    [SerializeField] private float _playerScreenY = -2f;
     #endregion
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    // 인스펙터 유효성 검사
-    public void Verification() {
-
-    }
-
-    // 스크립트 내부 변수 초기화
-    public void Initialize() {
-
-    }
-
-    // 외부에 전달할 데이터 생성
-    public void DataBuilder() {
-
-    }
-    #endregion
-
-    #region ─────────────────────────▶ 메시지 함수 ◀─────────────────────────
-    private void Awake()
+    public void UpdateGraphic(CarData data, in CarFrameInfo frame)
     {
-
-    }
-
-    private void OnEnable()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-
-    }
-
-    private void LateUpdate()
-    {
-
-    }
-
-    private void OnDisable()
-    {
-
-    }
-
-    private void OnDestroy()
-    {
-        
-    }
-
-    private void Reset()
-    {
-        
-    }
-
-    private void OnValidate()
-    {
-
+        // 캐싱
+        int carCount = data.activeCarCount;
+        float playerDataY = data.pos[0].y;
+        float offsetY = _playerScreenY - playerDataY;
+        // 모든 자동차 순회
+        for (int i = 0; i < carCount; ++i) {
+            // 좌표 갱신
+            Vector2 pos = data.pos[i];
+            Vector2 screenPos = new Vector2(pos.x, pos.y + offsetY);
+            data.tr[i].position = screenPos;
+            // 회전 갱신
+            float rot = data.rotation[i];
+            data.tr[i].rotation = Quaternion.Euler(0f, 0f, rot);
+        }
     }
     #endregion
 }

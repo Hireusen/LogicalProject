@@ -6,10 +6,10 @@ using UnityEngine;
 public readonly struct CarFrameInfo
 {
     // 입력
-    public readonly float horizontal; // 플레이어 좌우 이동
-    public readonly bool enableAccelerate; // 플레이어 가속
-    public readonly bool enableShield; // 플레이어 실드
-    public readonly bool enableRush; // 플레이어 가르기
+    public readonly float horizontal;
+    public readonly bool inputAccelerate;
+    public readonly bool inputShield;
+    public readonly bool inputRush;
     // 카메라
     public readonly Vector2 cameraMinPos;
     public readonly Vector2 cameraMaxPos;
@@ -17,13 +17,13 @@ public readonly struct CarFrameInfo
     public readonly float deltaTime;
 
     public CarFrameInfo(
-        float horizontal, bool accelerate, bool enableShield, bool enableRush,
+        float horizontal, bool inputAccelerate, bool inputShield, bool inputRush,
         Vector2 cameraMinPos, Vector2 cameraMaxPos, float deltaTime)
     {
         this.horizontal = horizontal;
-        this.enableAccelerate = accelerate;
-        this.enableShield = enableShield;
-        this.enableRush = enableRush;
+        this.inputAccelerate = inputAccelerate;
+        this.inputShield = inputShield;
+        this.inputRush = inputRush;
         this.cameraMinPos = cameraMinPos;
         this.cameraMaxPos = cameraMaxPos;
         this.deltaTime = deltaTime;

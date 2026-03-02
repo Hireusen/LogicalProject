@@ -12,9 +12,7 @@ public class RoadScroller : MonoBehaviour
     [SerializeField] private Transform _roadB;
     #endregion
 
-    #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
     private float _imageHeight;
-    #endregion
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
     public void InitRoad(CarData data)
@@ -27,20 +25,20 @@ public class RoadScroller : MonoBehaviour
         }
         _imageHeight = sr.bounds.size.y;
         // 초기 배치 (A를 기준으로 B를 위에 배치)
-        Vector3 posA = _roadA.position;
-        Vector3 posB = posA;
+        Vector2 posA = _roadA.position;
+        Vector2 posB = posA;
         posB.y = posA.y + _imageHeight;
         _roadB.position = posB;
     }
 
     public void UpdateScroll(CarData data, in CarFrameInfo frame)
     {
-        // 캐싱
+        // 변수 빌드 & 캐싱
         float speed = data.velocity[0].y;
         float scrollDelta = speed * frame.deltaTime;
+        Vector2 posA = _roadA.position;
+        Vector2 posB = _roadB.position;
         // 이동
-        Vector3 posA = _roadA.position;
-        Vector3 posB = _roadB.position;
         posA.y -= scrollDelta;
         posB.y -= scrollDelta;
         // 화면 아래로 벗어난 이미지를 위로 재배치
@@ -52,6 +50,13 @@ public class RoadScroller : MonoBehaviour
         // 적용
         _roadA.position = posA;
         _roadB.position = posB;
+    }
+
+    private void Awake()
+    {
+        if (De.IsNull(_roadA) || De.IsNull(_roadB)) {
+            enabled = false;
+        }
     }
     #endregion
 }
