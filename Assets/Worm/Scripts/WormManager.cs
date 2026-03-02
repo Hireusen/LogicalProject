@@ -10,85 +10,70 @@ public class WormManager : MonoBehaviour
 {
     #region ─────────────────────────▶ 인스펙터 ◀─────────────────────────
     [Header("필수 요소 등록")]
-    [SerializeField] private Transform _player;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private WormSpawner _wormSpawner;
+    [SerializeField] private WormItemSpawner _wormItemSpawner;
+    [SerializeField] private WormGetItem _wormGetItem;
+    [SerializeField] private WormRotate _wormRotate;
+    [SerializeField] private WormHeadMover _wormHeadMover;
+    [SerializeField] private WormHeadFollower _wormHeadFollower;
+    [SerializeField] private WormGraphic _wormGraphic;
+    [SerializeField] private WormUI _wormUI;
 
     [Header("사용자 정의 설정")]
-    [SerializeField] private Vector3 _offset = new Vector3(0f, 0f, 0f);
+    [SerializeField] private int _wormLength = 30;
     #endregion
 
-    #region ─────────────────────────▶ 접근자 ◀─────────────────────────
-
-    #endregion
-
-    #region ─────────────────────────▶ 내부 변수 ◀─────────────────────────
-
-    #endregion
-
-    #region ─────────────────────────▶ 내부 메서드 ◀─────────────────────────
-
-    #endregion
+    private WormData _data;
 
     #region ─────────────────────────▶ 외부 메서드 ◀─────────────────────────
-    // 인스펙터 유효성 검사
-    public void Verification() {
-
-    }
-
-    // 스크립트 내부 변수 초기화
-    public void Initialize() {
-
-    }
-
-    // 외부에 전달할 데이터 생성
-    public void DataBuilder() {
-
+    private void InitBeadData(int count)
+    {
+        // 플레이 도중 생성
+        if (_data != null) {
+            int oldCount = _data.capacity;
+            int absorptionCount = _data.absorptionCount;
+            int generatedCount = _data.generatedCount;
+            _data = new BeadData(count);
+            _data.absorptionCount = absorptionCount;
+            _data.generatedCount = generatedCount;
+            De.Print($"BeadData 재생성 완료 ({oldCount} → {count})");
+        }
+        // 최초 생성
+        else {
+            _data = new BeadData(count);
+            De.Print($"BeadData 생성 완료 ({count})");
+        }
     }
     #endregion
 
     #region ─────────────────────────▶ 메시지 함수 ◀─────────────────────────
-    private void Awake()
-    {
-
-    }
-
-    private void OnEnable()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
-
     private void Update()
     {
-
-    }
-
-    private void LateUpdate()
-    {
-
-    }
-
-    private void OnDisable()
-    {
-
-    }
-
-    private void OnDestroy()
-    {
+        (_data.cameraMinPos, _data.cameraMaxPos) = URange.GetCameraBounds2D(_camera);
         
     }
 
-    private void Reset()
+    private void Awake()
     {
-        
+        // 유효성 검사
+        if (De.IsNull(_camera)
+            || De.IsNull(_wormSpawner)
+            || De.IsNull(_wormItemSpawner)
+            || De.IsNull(_wormGetItem)
+            || De.IsNull(_wormRotate)
+            || De.IsNull(_wormHeadMover)
+            || De.IsNull(_wormHeadFollower)
+            || De.IsNull(_wormGraphic)
+            || De.IsNull(_wormUI)
+        ) {
+            enabled = false;
+        }
     }
 
     private void OnValidate()
     {
-
+        
     }
     #endregion
 }

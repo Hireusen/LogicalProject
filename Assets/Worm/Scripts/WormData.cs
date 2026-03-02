@@ -8,7 +8,20 @@ public class WormData
     public int length;
     public Vector2 headDir;
     public Vector2[] curPos;
-    public Vector2[] prevPos;
     public float[] size;
     public Transform[] tr;
+    // System
+    public int itemSpawnCount;
+    public Vector2 cameraMinPos;
+    public Vector2 cameraMaxPos;
+
+    public WormData(int length, Vector2 headDir)
+    {
+        this.length = length;
+        this.headDir = headDir;
+        this.curPos = new Vector2[length];
+        this.size = new float[length];
+        this.tr = new Transform[length];
+        this.itemSpawnCount = 0;
+    }
 }

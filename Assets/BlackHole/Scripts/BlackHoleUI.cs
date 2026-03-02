@@ -72,9 +72,9 @@ public class BlackHoleUI : MonoBehaviour
             // 쿨타임 검사
             if (_fpsTimer >= _fpsUpdateInterval) {
                 // 평균 FPS
-                int fpsMulTen = (int)(_frameCount / _fpsTimer) * 10;
+                int fps = (int)(_frameCount / _fpsTimer);
                 // 텍스트 대입
-                _frameText.SetText("{0} FPS", fpsMulTen * 0.1f);
+                _frameText.SetText("{0} FPS", fps);
                 // 프레임 초기화
                 _fpsTimer = 0f;
                 _frameCount = 0;
